@@ -1,18 +1,23 @@
-// var Plant= function(){
-// 	this.height = 0;
-// 	// this.increaseHeight = function(growth){
-// 	// 	height += growth;
-// 	// };
-// 	// this.decreaseHeight = function(amount){
-// 	// 	height-= amount;
-// 	// };
-// };
+var Plant= function(){;
+	this.height = 0;
+	this.increaseHeight = function(growth){
+		height += growth;
+	};
+	this.decreaseHeight = function(amount){
+		height-= amount;
+	};
+};
+
+var Tree= function(){};
+
+Tree.prototype= new Plant();
+
 
 var Tree= function(){
 	var branches =0;
 	var height =0;
 	var above10Height=0;
-	this.grow = function(amount){
+	this.grow = function(amount,name){
 	height += amount;
 
 	//grow by 10, gain one more branch
@@ -22,15 +27,17 @@ var Tree= function(){
 		above10Height-=10;
 	};
 
-	$("#tree").append("<div>"+Tree.name+" tree is now: "+height+" inches tall, and has "+branches+"branches</div>");
+	$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
 	// console.log(name);
 	}
 
 	//trim function
-	this.trim = function(amount){
+	this.trim = function(amount,name){
 		branches -= 1;
 		height -= amount;
-		console.log("Trimed!!")
+
+		$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
+		console.log("Trimed!");
 	};
 };
 
@@ -58,10 +65,12 @@ function integarGenerator(callBackFunction1, callBackFunction2){
 		pearInt = int2;
 		oakInt = int1;
 	}
-	console.log("pearInt", pearInt);
-	console.log("oakInt", oakInt);
-	callBackFunction1(pearInt);
-	callBackFunction2(oakInt);
+
+	console.log("pearInt: ", pearInt);
+	console.log("oakInt: ", oakInt);
+	//call either the grow or trim function
+	callBackFunction1(pearInt, PearTree.name);
+	callBackFunction2(oakInt, OakTree.name);
 	$("#tree").append("<br>");
 };
 
@@ -71,19 +80,20 @@ var intervalTree = window.setInterval(treeStrategy, 1000);
 //controller
 var growCount =0;
 var above10Count =0;
+
 function treeStrategy(){
 	integarGenerator(PearTree.grow, OakTree.grow);
 	growCount+=1;
 
 	//every 10 time trigger trim
 	above10Count+=1;
-	if(above10Count>=4){
-		above10Count-=4;
+	if(above10Count>=10){
+		above10Count-=10;
 		integarGenerator(PearTree.trim, OakTree.trim);
 	}
 
 	//max grow 30 times
-	if(growCount>=15){
+	if(growCount>=30){
 	window.clearInterval(intervalTree);
 	};
 };
@@ -96,5 +106,5 @@ $("#stop").click(function(){
 
 
 
-// var intervalID = window.setInterval(myCallback, 1000);
-// window.clearInterval(intervalID);
+
+
