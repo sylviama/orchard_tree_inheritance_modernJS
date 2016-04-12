@@ -60,5 +60,3 @@ Use Jasmine to write your unit tests before you begin writing **any** implementa
 
 1. Every tenth time the trees are grown, invoke the `trim` method. Pass one value to the method for the pear tree, and a larger value to the method on the oak tree.
 1. Stop growing the trees after they have grown 30 times.
-
-![Orchard Simulation](orchard.gif)
