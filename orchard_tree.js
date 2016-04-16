@@ -1,7 +1,9 @@
+"use strict"
+
 var Plant= function(){;
 	this.height = 0;
 	this.increaseHeight = function(growth){
-		height += growth;
+		this.height += growth;
 	};
 	this.decreaseHeight = function(amount){
 		height-= amount;
@@ -13,31 +15,31 @@ var Tree= function(){};
 Tree.prototype= new Plant();
 
 
-var Tree= function(){
+Tree= function(){
 	var branches =0;
 	var height =0;
 	var above10Height=0;
 	this.grow = function(amount,name){
-	height += amount;
+	height+=amount;
+
 
 	//grow by 10, gain one more branch
 	above10Height+=amount;
-	if(above10Height>=10){
+	while (above10Height>=10){
 		branches+=1;
 		above10Height-=10;
 	};
 
 	$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
-	// console.log(name);
 	}
 
 	//trim function
 	this.trim = function(amount,name){
 		branches -= 1;
-		height -= amount;
+		this.height -= amount;
 
 		$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
-		console.log("Trimed!");
+		// console.log("Trimed!");
 	};
 };
 
@@ -55,8 +57,8 @@ function integarGenerator(callBackFunction1, callBackFunction2){
 	var pearInt =0;
 	var oakInt =0;
 
-	var int1 = Math.floor(Math.random()*10+1);
-	var int2 = Math.floor(Math.random()*10+1);
+	var int1 = Math.floor(Math.random()*20+1);
+	var int2 = Math.floor(Math.random()*20+1);
 
 	if(int1<=int2){
 		pearInt = int1;
@@ -66,8 +68,8 @@ function integarGenerator(callBackFunction1, callBackFunction2){
 		oakInt = int1;
 	}
 
-	console.log("pearInt: ", pearInt);
-	console.log("oakInt: ", oakInt);
+	// console.log("pearInt: ", pearInt);
+	// console.log("oakInt: ", oakInt);
 	//call either the grow or trim function
 	callBackFunction1(pearInt, PearTree.name);
 	callBackFunction2(oakInt, OakTree.name);
