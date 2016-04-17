@@ -1,50 +1,50 @@
 "use strict"
 
 var Plant= function(){;
-	this.height = 0;
-	this.increaseHeight = function(growth){
-		this.height += growth;
-	};
-	this.decreaseHeight = function(amount){
-		height-= amount;
-	};
+	this.height= 0;
 };
 
-var Tree= function(){};
+Plant.prototype.increaseHeight = function(amount){
+	this.height += amount;
+	};
 
-Tree.prototype= new Plant();
-
-
-Tree= function(){
-	var branches =0;
-	var height =0;
-	var above10Height=0;
-	this.grow = function(amount,name){
-	height+=amount;
+Plant.prototype.decreaseHeight = function(amount){
+	this.height-= amount;
+	
+};
 
 
+var Tree= function(){
+	this.branches =0;
+	this.above10Height=0;
+	this.name= null;
+};
+
+Tree.prototype = new Plant();
+
+//need to pass the Tree because of the callback
+Tree.prototype.grow = function(amount, TreePass){
+	
 	//grow by 10, gain one more branch
-	above10Height+=amount;
-	while (above10Height>=10){
-		branches+=1;
-		above10Height-=10;
+	TreePass.above10Height+=amount;
+	while (TreePass.above10Height>=10){
+		TreePass.branches+=1;
+		TreePass.above10Height-=10;
 	};
 
-	$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
-	}
+	TreePass.increaseHeight(amount);
+	$("#tree").append("<div>"+TreePass.name+" tree is now: "+TreePass.height+" inches tall, and has "+TreePass.branches+" branches</div>");
+}
 
-	//trim function
-	this.trim = function(amount,name){
-		branches -= 1;
-		this.height -= amount;
+Tree.prototype.trim = function(amount,TreePass){
+	TreePass.branches -= 1;
+	TreePass.decreaseHeight(amount);
+	$("#tree").append("<div>"+TreePass.name+" tree is now: "+TreePass.height+" inches tall, and has "+TreePass.branches+" branches</div>");
 
-		$("#tree").append("<div>"+name+" tree is now: "+height+" inches tall, and has "+branches+" branches</div>");
-		// console.log("Trimed!");
-	};
+	console.log("trimed!!");
 };
 
 
-// Tree.prototype = new Plant();
 
 var PearTree = new Tree();
 PearTree.name = "Pear";
@@ -54,6 +54,7 @@ OakTree.name = "Oak";
 
 //generate integar, give the small one to pear and larger to oak
 function integarGenerator(callBackFunction1, callBackFunction2){
+// function integarGenerator(){
 	var pearInt =0;
 	var oakInt =0;
 
@@ -67,12 +68,12 @@ function integarGenerator(callBackFunction1, callBackFunction2){
 		pearInt = int2;
 		oakInt = int1;
 	}
-
-	// console.log("pearInt: ", pearInt);
-	// console.log("oakInt: ", oakInt);
+ 
+ 	console.log("pearInt", pearInt);
+ 	console.log("oakInt", oakInt);
 	//call either the grow or trim function
-	callBackFunction1(pearInt, PearTree.name);
-	callBackFunction2(oakInt, OakTree.name);
+	callBackFunction1(pearInt,PearTree);
+	callBackFunction2(oakInt, OakTree);
 	$("#tree").append("<br>");
 };
 
@@ -84,8 +85,11 @@ var growCount =0;
 var above10Count =0;
 
 function treeStrategy(){
-	integarGenerator(PearTree.grow, OakTree.grow);
 	growCount+=1;
+	console.log(growCount);
+
+	// integarGenerator();
+	integarGenerator(PearTree.grow, OakTree.grow);
 
 	//every 10 time trigger trim
 	above10Count+=1;
